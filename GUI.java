@@ -26,7 +26,7 @@ class GUI extends JFrame{
 	private JPanel p_judge, p_config, p_selection;
 
 	public GUI(String version){
-		super("Judge (v" + version + ")");
+		super("AutoJudge (v " + version + ")");
 		c = getContentPane();
 		
 		setVisible(false);
