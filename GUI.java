@@ -63,6 +63,7 @@ class GUI extends JFrame{
 		languageBox = new JComboBox<String>();
 		languageBox.addItem("C++");
 		languageBox.addItem("Java");
+		languageBox.addItem("Python");
 		languageBox.setMaximumRowCount(30);
 		gbc.gridx = 1;
 		gbc.weightx = 1;
@@ -293,6 +294,7 @@ class GUI extends JFrame{
 							JComboBox<String> languageBox = new JComboBox<String>();
 							languageBox.addItem("C++");
 							languageBox.addItem("Java");
+							languageBox.addItem("Python");
 							languageBox.setMaximumRowCount(30);
 							gbc.gridx = 1;
 							gbc.weightx = 1;
@@ -541,6 +543,7 @@ class GUI extends JFrame{
 							languageBox = new JComboBox<String>();
 							languageBox.addItem("C++");
 							languageBox.addItem("Java");
+							languageBox.addItem("Python");
 							languageBox.setMaximumRowCount(30);
 							gbc.gridx = 1;
 							gbc.weightx = 1;

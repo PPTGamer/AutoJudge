@@ -61,6 +61,12 @@ class HelperLib{
 				int eindex = code.indexOf("{");
 				String className = code.substring(sindex, eindex).trim();
 				return folder+"\\"+className+".java";
+			case "Python":
+				if(fileName == null){
+					return folder+"\\a.py";
+				}else{
+					return folder+"\\"+fileName+".py";
+				}
 		}
 		return null;
 	}
@@ -83,6 +89,8 @@ class HelperLib{
 				int eindex = code.indexOf("{");
 				String className = code.substring(sindex, eindex).trim();
 				return "javac "+folder+"\\"+className+".java";
+			case "Python":
+				return null;
 		}
 		return null;
 	}
@@ -105,6 +113,12 @@ class HelperLib{
 				int eindex = code.indexOf("{");
 				String className = code.substring(sindex, eindex).trim();
 				return "java -cp "+folder+" "+className;
+			case "Python":
+				if(fileName == null){
+					return "python " + folder + "\\a.py";
+				}else{
+					return "python " + folder + "\\"+fileName+".py";
+				}
 		}
 		return null;
 	}

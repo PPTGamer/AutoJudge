@@ -18,25 +18,13 @@ class CompileThread extends Thread{
 		try{
 			Runtime rt = Runtime.getRuntime();
 			System.out.println("about to compile");
-			Process proc = rt.exec(bundle.compileCommand);
-			System.out.println("compiling");
-			proc.waitFor();
-
-			InputStreamReader stdError = new InputStreamReader(proc.getErrorStream());
-
-			String s = HelperLib.inputStreamReaderToString(stdError);
-			System.out.println("compiled");
-			
-			if(s.length() != 0){
-				if(!AutoJudge.judge.checkForCompileErrorOverride(s)){
-					AutoJudge.judge.giveNoCasesVerdict("Compile Error", s);
-					return;
-				}
-			}
-			
-			if(bundle.problem.checkerFile != null){
-				System.out.println("about to compile checker program");
-				proc = rt.exec(bundle.checkerCompileCommand);
+			Process proc;
+			InputStreamReader stdError;
+			String s;
+			if(bundle.compileCommand == null){
+				System.out.println("skipping compilation for " + bundle.language);
+			}else{
+				proc = rt.exec(bundle.compileCommand);
 				System.out.println("compiling");
 				proc.waitFor();
 
@@ -47,8 +35,31 @@ class CompileThread extends Thread{
 				
 				if(s.length() != 0){
 					if(!AutoJudge.judge.checkForCompileErrorOverride(s)){
-						AutoJudge.judge.giveNoCasesVerdict("Compile Error in Checker Program", s);
+						AutoJudge.judge.giveNoCasesVerdict("Compile Error", s);
 						return;
+					}
+				}
+			}
+			
+			if(bundle.problem.checkerFile != null){
+				System.out.println("about to compile checker program");
+				if(bundle.checkerCompileCommand == null){
+					System.out.println("skipping compilation for " + bundle.problem.checkerLanguage);
+				}else{
+					proc = rt.exec(bundle.checkerCompileCommand);
+					System.out.println("compiling");
+					proc.waitFor();
+
+					stdError = new InputStreamReader(proc.getErrorStream());
+
+					s = HelperLib.inputStreamReaderToString(stdError);
+					System.out.println("compiled");
+					
+					if(s.length() != 0){
+						if(!AutoJudge.judge.checkForCompileErrorOverride(s)){
+							AutoJudge.judge.giveNoCasesVerdict("Compile Error in Checker Program", s);
+							return;
+						}
 					}
 				}
 			}
