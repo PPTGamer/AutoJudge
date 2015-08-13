@@ -1,6 +1,6 @@
 # AutoJudge
 
-AutoJudge v7.0 by Kyle See
+AutoJudge by Kyle See
 
 An automatic judging program for use in competitive programming exercises.
 
