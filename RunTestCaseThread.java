@@ -52,12 +52,6 @@ class RunTestCaseThread extends Thread{
 				verdictPassed = true;
 				AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Terminated");
 			}
-			if(proc.exitValue() != 0){
-				if(!verdictPassed){
-					verdictPassed = true;
-					AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Runtime Error");
-				}
-			}
 			if(AutoJudge.runWindow.isTimeLimit()){
 				if(bundle.timeLimitExceeded == Integer.MAX_VALUE){
 					bundle.timeLimitExceeded = caseNum;
@@ -65,6 +59,12 @@ class RunTestCaseThread extends Thread{
 				if(!verdictPassed){
 					verdictPassed = true;
 					AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Time Limit Exceeded");
+				}
+			}
+			if(proc.exitValue() != 0){
+				if(!verdictPassed){
+					verdictPassed = true;
+					AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Runtime Error");
 				}
 			}
 			bundle.runTimes.add(AutoJudge.runWindow.getRunTime());
@@ -124,12 +124,14 @@ class RunTestCaseThread extends Thread{
 							case "AC": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Accepted"); break;
 							case "WA": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Wrong Answer"); break;
 							case "OFE": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Output Format Error"); break;
-							case "O": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Other"); break;
+							default: AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Other"); break;
 						}
 						bundle.checkerNotes.add(notes);
 					}
 					(new File("AutoJudgeTemporaryCheckerOutputFile.out")).delete();
 					(new File("AutoJudgeTemporaryCheckerErrorFile.err")).delete();
+				}else{
+					bundle.checkerNotes.add("Checker not run");
 				}
 			}else{
 				if(!verdictPassed){
