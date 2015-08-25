@@ -68,6 +68,7 @@ class CompileThread extends Thread{
 				new RunTestCaseThread(bundle, 0).start();
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }

@@ -40,6 +40,7 @@ class Judge{
 			
 			new CompileThread(params).start();
 		}catch(Exception e){
+			AutoJudge.gui.enableJudge();
 			JOptionPane.showMessageDialog(null, "Failed to judge run");
 		}
 	}
