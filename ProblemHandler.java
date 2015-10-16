@@ -38,8 +38,10 @@ class ProblemHandler{
 				problem.timeLimit = Integer.parseInt(params[3]);
 				problem.inputFormat = params[4];
 				problem.outputFormat = params[5];
-				problem.checkerLanguage = params.length>6?params[6]:null;
-				problem.checkerFile = params.length>7?params[7]:null;
+				problem.precisionExponent = Integer.parseInt(params[6]);
+				problem.checkerLanguage = params.length>7?params[7]:null;
+				problem.checkerFile = params.length>8?params[8]:null;
+				
 				for(int i=0; i<n; i++){
 					String[] io = sc.nextLine().split("\t");
 					problem.inputFiles.add(io[0]);
@@ -65,7 +67,8 @@ class ProblemHandler{
 				sb.append(""+problems.get(i).folder + '\t');
 				sb.append(""+problems.get(i).timeLimit + '\t');
 				sb.append(""+problems.get(i).inputFormat + '\t');
-				sb.append(""+problems.get(i).outputFormat);
+				sb.append(""+problems.get(i).outputFormat + '\t');
+				sb.append(""+problems.get(i).precisionExponent);
 				if(problems.get(i).checkerFile != null){
 					sb.append(""+'\t' + problems.get(i).checkerLanguage);
 					sb.append(""+'\t' + problems.get(i).checkerFile);

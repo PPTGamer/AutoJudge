@@ -10,7 +10,7 @@ import java.util.*;
 class Problem{
 	ArrayList<String> inputFiles, outputFiles;
 	String title, folder, inputFormat, outputFormat, checkerLanguage, checkerFile;
-	int timeLimit;
+	int timeLimit, precisionExponent;
 	boolean showInput;
 	
 	public Problem(){

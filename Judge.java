@@ -107,8 +107,15 @@ class Judge{
 		return !atmp.equalsIgnoreCase(btmp);
 	}
 	
-	public boolean checkOutputFormatError(String a, String b){
-		return !a.equals(b);
+	public boolean checkWrongAnswer(String a, String b,int p){
+		String atmp = a.replaceAll("\\s+", "");
+		String btmp = b.replaceAll("\\s+", "");
+		return PrecisionChecker.judge(a,b,p);
+	}
+	
+	public boolean checkOutputFormatError(String a, String b,int p){
+		//TODO: Add proper OFE check
+		return PrecisionChecker.judge(a,b,p);
 	}
 	
 	public void giveNoCasesVerdict(String type, String message){
