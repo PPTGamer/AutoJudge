@@ -58,6 +58,8 @@ public class PrecisionChecker{
 					System.out.println("Error not less than " + Math.pow(10,precision) + ".");
 					return -1; //Precision error.
 				}
+			}else if(!runtoken.equals(judgetoken)){
+				return -2; //WA!
 			}
 		}
 		return 0;
