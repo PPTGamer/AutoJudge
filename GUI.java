@@ -140,7 +140,7 @@ class GUI extends JFrame{
 			public ProblemDataTableModel(Vector<Vector<Object>> data, ArrayList<Problem> problems){
 				columnNames.add("Letter");
 				columnNames.add("Name");
-				columnNames.add("Cases");
+				columnNames.add("Cases");						
 				columnNames.add("Folder");
 				columnNames.add("Input File Format");
 				columnNames.add("Output File Format");
@@ -148,6 +148,8 @@ class GUI extends JFrame{
 				columnNames.add("Show Input");
 				columnNames.add("Checker Language");
 				columnNames.add("Checker File");
+				columnNames.add("Precision Checker Exponent");
+				columnNames.add("Output Format Mode");
 				this.problems = problems;
 				this.data = data;
 			}
@@ -170,11 +172,20 @@ class GUI extends JFrame{
 			
 			public Class getColumnClass(int c){
 				switch(c){
-					case 0: case 1: case 3: case 4: case 5: case 8: case 9:
+					case 0: //Letter
+					case 1: //Name
+					case 3: //Folder
+					case 4: //Input File Format
+					case 5: //Output File Format
+					case 8: //Checker Language
+					case 9: //Checker File
+					case 11: //Output Format Mode
 						return String.class;
-					case 2: case 6:
+					case 2:	//Cases 
+					case 6:	//Time Limit
+					case 10://Precision Checker Exponent
 						return Integer.class;
-					case 7:
+					case 7:	//Show Input
 						return Boolean.class;
 				}
 				return String.class;
@@ -196,6 +207,8 @@ class GUI extends JFrame{
 					case 7: problems.get(row).showInput = (boolean)value; return;
 					case 8: problems.get(row).checkerLanguage = (String)value; return;
 					case 9: problems.get(row).checkerFile = (String)value; return;
+					case 10:problems.get(row).precisionExponent = (int)value; return;
+					case 11:problems.get(row).checkOFEMode = (String)value; return;
 				}
 			}
 		}
@@ -233,6 +246,8 @@ class GUI extends JFrame{
 				JTextField infileName = new JTextField("judge%d.in");
 				JTextField outfileName = new JTextField("judge%d.out");
 				JTextField timeLimit = new JTextField();
+				JTextField precisionExponent = new JTextField("0");
+				JComboBox OFEMode = new JComboBox(new String[]{"Tolerate all whitespace","Tolerate all newlines","Tolerate all blank lines"});
 				JCheckBox input = new JCheckBox();
 				JButton checker = new JButton("Add Checker Program?");
 				Problem prob = new Problem();
@@ -244,7 +259,7 @@ class GUI extends JFrame{
 					mainPanel.setLayout(new BorderLayout());
 					
 					JPanel panel = new JPanel();
-					panel.setLayout(new GridLayout(7, 2));
+					panel.setLayout(new GridLayout(9, 2));
 					
 					JLabel l_title = new JLabel("Title: "); panel.add(l_title);
 					panel.add(title);
@@ -263,6 +278,12 @@ class GUI extends JFrame{
 					
 					JLabel l_timeLimit = new JLabel("Time Limit (secs): "); panel.add(l_timeLimit);
 					panel.add(timeLimit);
+					
+					JLabel l_precisionExponent = new JLabel("Precision (power of 10): "); panel.add(l_precisionExponent);
+					panel.add(precisionExponent);
+					
+					JLabel l_OFEMode = new JLabel("Output Format Error Checking Mode: "); panel.add(l_OFEMode);
+					panel.add(OFEMode);
 					
 					JLabel l_input = new JLabel("Show Input: "); panel.add(l_input);
 					panel.add(input);
@@ -387,6 +408,8 @@ class GUI extends JFrame{
 					prob.title = title.getText();
 					prob.folder = path.getText();
 					prob.timeLimit = Integer.parseInt(timeLimit.getText());
+					prob.precisionExponent = Integer.parseInt(precisionExponent.getText());
+					prob.checkOFEMode = (String)OFEMode.getSelectedItem();
 					prob.inputFormat = infileName.getText();
 					prob.outputFormat = outfileName.getText();
 					prob.setCases(Integer.parseInt(cases.getText()));
@@ -745,6 +768,8 @@ class GUI extends JFrame{
 			temp.add(problems.get(i).showInput);
 			temp.add(problems.get(i).checkerLanguage);
 			temp.add(problems.get(i).checkerFile);
+			temp.add(problems.get(i).precisionExponent);
+			temp.add(problems.get(i).checkOFEMode);
 			problemData.add(temp);
 		}
 	}
