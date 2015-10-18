@@ -12,6 +12,7 @@ class Problem{
 	String title, folder, inputFormat, outputFormat, checkerLanguage, checkerFile;
 	int timeLimit, precisionExponent;
 	boolean showInput;
+	String checkOFEMode;
 	
 	public Problem(){
 		this("");

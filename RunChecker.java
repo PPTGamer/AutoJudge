@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.io.*;
 
-public class PrecisionChecker{
+public class RunChecker{
 	static ArrayList<String> runoutTokens, judgeoutTokens;
 	public static ArrayList<String> tokenize(String s){
 		ArrayList<String> tokens = new ArrayList<String>();
@@ -33,7 +33,7 @@ public class PrecisionChecker{
 		return tokens;
 	}
 	
-	public static int compare(String runout, String judgeout, int precision){
+	public static int tokenChecker(String runout, String judgeout, int precision){
 		Pattern numericLiteralPattern = Pattern.compile("[0-9]+|[0-9]+.[0-9]+");
 		
 		if(runoutTokens.size() != judgeoutTokens.size()){
@@ -65,13 +65,24 @@ public class PrecisionChecker{
 		return 0;
 	}
 	
-	public static boolean judge(String runout, String judgeout,int precision)
+	public static boolean judge(String runout, String judgeout,int precision,String OFEMode)
 	{
+		if(OFEMode.equals("Tolerate all whitespace")){
+			runout = runout.replaceAll("\\s+", "");
+			judgeout =	judgeout.replaceAll("\\s+", "");
+		}else if(OFEMode.equals("Tolerate all newlines")){
+			runout = runout.replaceAll("\\n+", "");
+			judgeout =	judgeout.replaceAll("\\n+", "");
+		}else if(OFEMode.equals("Tolerate all blank lines")){
+			runout = runout.replaceAll("\\n{2,}+", "\n");
+			judgeout =	judgeout.replaceAll("\\n{2,}+", "\n");
+		}else if(OFEMode.equals("Strict")){}
+		
 		runoutTokens = tokenize(runout);
 		System.out.println("Team output tokenized.");
 		judgeoutTokens  = tokenize(judgeout);
 		System.out.println("Judge output tokenized.");
-		int verdict = compare(runout,judgeout,precision);
+		int verdict = tokenChecker(runout,judgeout,precision);
 		switch(verdict){
 			case 0:
 				System.out.println("Accepted");
@@ -85,4 +96,4 @@ public class PrecisionChecker{
 		}
 		return verdict < 0;
 	}
-}	
+}

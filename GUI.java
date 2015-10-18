@@ -149,6 +149,7 @@ class GUI extends JFrame{
 				columnNames.add("Checker Language");
 				columnNames.add("Checker File");
 				columnNames.add("Precision Checker Exponent");
+				columnNames.add("Output Format Mode");
 				this.problems = problems;
 				this.data = data;
 			}
@@ -178,6 +179,7 @@ class GUI extends JFrame{
 					case 5: //Output File Format
 					case 8: //Checker Language
 					case 9: //Checker File
+					case 11: //Output Format Mode
 						return String.class;
 					case 2:	//Cases 
 					case 6:	//Time Limit
@@ -206,6 +208,7 @@ class GUI extends JFrame{
 					case 8: problems.get(row).checkerLanguage = (String)value; return;
 					case 9: problems.get(row).checkerFile = (String)value; return;
 					case 10:problems.get(row).precisionExponent = (int)value; return;
+					case 11:problems.get(row).checkOFEMode = (String)value; return;
 				}
 			}
 		}
@@ -244,6 +247,7 @@ class GUI extends JFrame{
 				JTextField outfileName = new JTextField("judge%d.out");
 				JTextField timeLimit = new JTextField();
 				JTextField precisionExponent = new JTextField("0");
+				JComboBox OFEMode = new JComboBox(new String[]{"Tolerate all whitespace","Tolerate all newlines","Tolerate all blank lines"});
 				JCheckBox input = new JCheckBox();
 				JButton checker = new JButton("Add Checker Program?");
 				Problem prob = new Problem();
@@ -255,7 +259,7 @@ class GUI extends JFrame{
 					mainPanel.setLayout(new BorderLayout());
 					
 					JPanel panel = new JPanel();
-					panel.setLayout(new GridLayout(8, 2));
+					panel.setLayout(new GridLayout(9, 2));
 					
 					JLabel l_title = new JLabel("Title: "); panel.add(l_title);
 					panel.add(title);
@@ -277,6 +281,9 @@ class GUI extends JFrame{
 					
 					JLabel l_precisionExponent = new JLabel("Precision (power of 10): "); panel.add(l_precisionExponent);
 					panel.add(precisionExponent);
+					
+					JLabel l_OFEMode = new JLabel("Output Format Error Checking Mode: "); panel.add(l_OFEMode);
+					panel.add(OFEMode);
 					
 					JLabel l_input = new JLabel("Show Input: "); panel.add(l_input);
 					panel.add(input);
@@ -402,6 +409,7 @@ class GUI extends JFrame{
 					prob.folder = path.getText();
 					prob.timeLimit = Integer.parseInt(timeLimit.getText());
 					prob.precisionExponent = Integer.parseInt(precisionExponent.getText());
+					prob.checkOFEMode = (String)OFEMode.getSelectedItem();
 					prob.inputFormat = infileName.getText();
 					prob.outputFormat = outfileName.getText();
 					prob.setCases(Integer.parseInt(cases.getText()));
@@ -761,6 +769,7 @@ class GUI extends JFrame{
 			temp.add(problems.get(i).checkerLanguage);
 			temp.add(problems.get(i).checkerFile);
 			temp.add(problems.get(i).precisionExponent);
+			temp.add(problems.get(i).checkOFEMode);
 			problemData.add(temp);
 		}
 	}

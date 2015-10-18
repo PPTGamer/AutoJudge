@@ -138,7 +138,7 @@ class RunTestCaseThread extends Thread{
 					if(AutoJudge.judge.checkWrongAnswer(team, judge,bundle.problem.precisionExponent)){
 						if(bundle.wrongAnswer == Integer.MAX_VALUE) bundle.wrongAnswer = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Wrong Answer");
-					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem.precisionExponent)){
+					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem.precisionExponent,bundle.problem.checkOFEMode)){
 						if(bundle.outputFormatError == Integer.MAX_VALUE) bundle.outputFormatError = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Output Format Error");
 					}else{
