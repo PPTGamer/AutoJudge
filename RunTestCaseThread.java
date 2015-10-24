@@ -70,13 +70,13 @@ class RunTestCaseThread extends Thread{
 			bundle.runTimes.add(AutoJudge.runWindow.getRunTime());
 			
 			String team = HelperLib.inputStreamReaderToString(new FileReader(new File("AutoJudgeTemporaryOutputFile.out")));
-			System.out.println("Team: " + team);
+			//System.out.println("Team: " + team);
 			
 			String error = HelperLib.inputStreamReaderToString(new FileReader(new File("AutoJudgeTemporaryErrorFile.err")));
-			System.out.println("Error: " + error);
+			//System.out.println("Error: " + error);
 			
 			String judge = HelperLib.inputStreamReaderToString(new FileReader(new File(bundle.problem.outputFiles.get(caseNum))));
-			System.out.println("Judge: " + judge);
+			//System.out.println("Judge: " + judge);
 			
 			bundle.errors.add(error);
 			if(error.length() != 0){
