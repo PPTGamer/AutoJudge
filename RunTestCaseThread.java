@@ -135,10 +135,10 @@ class RunTestCaseThread extends Thread{
 				}
 			}else{
 				if(!verdictPassed){
-					if(AutoJudge.judge.checkWrongAnswer(team, judge,bundle.problem.precisionExponent)){
+					if(AutoJudge.judge.checkWrongAnswer(team, judge,bundle.problem)){
 						if(bundle.wrongAnswer == Integer.MAX_VALUE) bundle.wrongAnswer = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Wrong Answer");
-					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem.precisionExponent,bundle.problem.checkOFEMode)){
+					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem)){
 						if(bundle.outputFormatError == Integer.MAX_VALUE) bundle.outputFormatError = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Output Format Error");
 					}else{

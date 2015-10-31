@@ -142,14 +142,12 @@ class GUI extends JFrame{
 				columnNames.add("Name");
 				columnNames.add("Cases");						
 				columnNames.add("Folder");
+				columnNames.add("Time Limit");
 				columnNames.add("Input File Format");
 				columnNames.add("Output File Format");
-				columnNames.add("Time Limit");
 				columnNames.add("Show Input");
-				columnNames.add("Checker Language");
-				columnNames.add("Checker File");
-				columnNames.add("Precision Checker Exponent");
-				columnNames.add("Output Format Mode");
+				columnNames.add("Custom Judge?");
+				columnNames.add("Precision Checker?");
 				this.problems = problems;
 				this.data = data;
 			}
@@ -177,39 +175,20 @@ class GUI extends JFrame{
 					case 3: //Folder
 					case 4: //Input File Format
 					case 5: //Output File Format
-					case 8: //Checker Language
-					case 9: //Checker File
-					case 11: //Output Format Mode
 						return String.class;
 					case 2:	//Cases 
 					case 6:	//Time Limit
-					case 10://Precision Checker Exponent
 						return Integer.class;
 					case 7:	//Show Input
+					case 8:	//Use Custom Judge?
+					case 9:	//Use Precision Checker?
 						return Boolean.class;
 				}
 				return String.class;
 			}
 			
 			public boolean isCellEditable(int row, int col){
-				return col != 0;
-			}
-			
-			public void setValueAt(Object value, int row, int col){
-				data.get(row).set(col, value);
-				switch(col){
-					case 1: problems.get(row).title = (String)value; return;
-					case 2: problems.get(row).setCases((int)value); return;
-					case 3: problems.get(row).folder = (String)value; return;
-					case 4: problems.get(row).inputFormat = (String)value; return;
-					case 5: problems.get(row).outputFormat = (String)value; return;
-					case 6: problems.get(row).timeLimit = (int)value; return;
-					case 7: problems.get(row).showInput = (boolean)value; return;
-					case 8: problems.get(row).checkerLanguage = (String)value; return;
-					case 9: problems.get(row).checkerFile = (String)value; return;
-					case 10:problems.get(row).precisionExponent = (int)value; return;
-					case 11:problems.get(row).checkOFEMode = (String)value; return;
-				}
+				return false;
 			}
 		}
 		ProblemDataTableModel tableModel = new ProblemDataTableModel(problemData, AutoJudge.problemHandler.getProblems());
@@ -239,192 +218,52 @@ class GUI extends JFrame{
 			}
 			
 			public void actionPerformed(ActionEvent e){
-				String message = "Please enter the necessary information.";
-				JTextField title = new JTextField();
-				JTextField cases = new JTextField();
-				JTextField path = new JTextField();
-				JTextField infileName = new JTextField("judge%d.in");
-				JTextField outfileName = new JTextField("judge%d.out");
-				JTextField timeLimit = new JTextField();
-				JTextField precisionExponent = new JTextField("0");
-				JComboBox OFEMode = new JComboBox(new String[]{"Tolerate all whitespace","Tolerate all newlines","Tolerate all blank lines"});
-				JCheckBox input = new JCheckBox();
-				JButton checker = new JButton("Add Checker Program?");
-				Problem prob = new Problem();
-				
-				while(true){
-					DialogBox d = new DialogBox(null, "Add Problem", message, "Ok");
-					
-					JPanel mainPanel = new JPanel();
-					mainPanel.setLayout(new BorderLayout());
-					
-					JPanel panel = new JPanel();
-					panel.setLayout(new GridLayout(9, 2));
-					
-					JLabel l_title = new JLabel("Title: "); panel.add(l_title);
-					panel.add(title);
-					
-					JLabel l_cases = new JLabel("Num Cases: "); panel.add(l_cases);
-					panel.add(cases);
-					
-					JLabel l_path = new JLabel("Default IO Folder: "); panel.add(l_path);
-					panel.add(path);
-					
-					JLabel l_infileName = new JLabel("Input file name format: "); panel.add(l_infileName);
-					panel.add(infileName);
-					
-					JLabel l_outfileName = new JLabel("Output file name format: "); panel.add(l_outfileName);
-					panel.add(outfileName);
-					
-					JLabel l_timeLimit = new JLabel("Time Limit (secs): "); panel.add(l_timeLimit);
-					panel.add(timeLimit);
-					
-					JLabel l_precisionExponent = new JLabel("Precision (power of 10): "); panel.add(l_precisionExponent);
-					panel.add(precisionExponent);
-					
-					JLabel l_OFEMode = new JLabel("Output Format Error Checking Mode: "); panel.add(l_OFEMode);
-					panel.add(OFEMode);
-					
-					JLabel l_input = new JLabel("Show Input: "); panel.add(l_input);
-					panel.add(input);
-					
-					mainPanel.add(panel, BorderLayout.CENTER);
-					
-					class CheckerActionListener implements ActionListener{
-						Problem p;
-						public CheckerActionListener(Problem p){
-							this.p = p;
-						}
-						public void actionPerformed(ActionEvent e){
-							DialogBox d = new DialogBox(null, "Set Problem Checker", "<html>The problem checker MUST print out the correct judgement code (AC - accepted, WA - wrong answer, OFE - output format error, O - other)<br>on a line by itself at the beginning of its output. Any succeeding lines will be treated as notes and will be shown when comparing team<br>outputs. The checker will be run from the directory of the autojudge with the current test case number (1-n)as its only command line<br>argument and the team's output file-redirected into it (ie. \"&lt;checker&gt; &lt;casenum&gt; &lt; &lt;team's output&gt;\"). The checker program is saved as<br>\"&lt;File Name&gt;\" in the checkers folder in the same folder as autojudge (file name ignored for Java). Please make sure this file name is unique<br>among all problems.", "Ok");
-							
-							JPanel mainPanel = new JPanel();
-							mainPanel.setLayout(new BorderLayout());
-							
-							JPanel languageSelection = new JPanel();
-							languageSelection.setLayout(new GridBagLayout());
-							GridBagConstraints gbc = new GridBagConstraints();
-							gbc.fill = GridBagConstraints.HORIZONTAL;
-							gbc.insets = new Insets(2, 2, 2, 2);
-							
-							JLabel languageLabel = new JLabel("Select language: ");
-							gbc.gridx = 0;
-							gbc.gridy = 0;
-							gbc.weightx = 0;
-							languageSelection.add(languageLabel, gbc);
-							JComboBox<String> languageBox = new JComboBox<String>();
-							languageBox.addItem("C++");
-							languageBox.addItem("Java");
-							languageBox.addItem("Python");
-							languageBox.setMaximumRowCount(30);
-							gbc.gridx = 1;
-							gbc.weightx = 1;
-							languageSelection.add(languageBox, gbc);
-							mainPanel.add(languageSelection, BorderLayout.NORTH);
-							JLabel fileLabel = new JLabel("File name: ");
-							gbc.gridx = 0;
-							gbc.gridy = 1;
-							gbc.weightx = 0;
-							languageSelection.add(fileLabel, gbc);
-							JTextField fileBox = new JTextField();
-							gbc.gridx = 1;
-							gbc.weightx = 1;
-							languageSelection.add(fileBox, gbc);
-							mainPanel.add(languageSelection, BorderLayout.NORTH);
-							
-							JPanel text = new JPanel();
-							BorderLayout layout = new BorderLayout();
-							layout.setHgap(5);
-							text.setLayout(layout);
-							
-							JTextArea lines = HelperLib.getTextArea("");
-							lines.setEditable(false);
-							lines.setPreferredSize(new Dimension(40, 500));
-							text.add(lines, BorderLayout.WEST);
-							
-							JTextArea textArea = HelperLib.getTextArea("");
-							class textListener implements DocumentListener{
-								JTextArea lines, code;
-								public textListener(JTextArea lines, JTextArea code){
-									this.lines = lines;
-									this.code = code;
-								}
-								public void removeUpdate(DocumentEvent e){
-									lines.setText(HelperLib.getLines(code.getText()));
-								}
-								public void insertUpdate(DocumentEvent e){
-									lines.setText(HelperLib.getLines(code.getText()));
-								}
-								public void changedUpdate(DocumentEvent e){
-									lines.setText(HelperLib.getLines(code.getText()));
-								}
-							}
-							textArea.getDocument().addDocumentListener(new textListener(lines, textArea));
-							
-							text.add(textArea, BorderLayout.CENTER);
-							
-							JScrollPane scroll = new JScrollPane(text);
-							scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-							scroll.getVerticalScrollBar().setUnitIncrement(16);
-							scroll.setPreferredSize(new Dimension(800, 450));
-							mainPanel.add(scroll, BorderLayout.CENTER);
-							
-							d.setContents(mainPanel);
-							if(!d.showToUser()) return;
-							
-							if(fileBox.getText().length() == 0){
-								JOptionPane.showMessageDialog(null, "Failed to set checker program. Please input a file name.");
-							}else{
-								p.checkerLanguage = (String)languageBox.getSelectedItem();
-								p.checkerFile = fileBox.getText();
-								HelperLib.stringToFile(HelperLib.getSaveFileString(p.checkerLanguage, textArea.getText(), "checkers", p.checkerFile), textArea.getText());
-							}
-						}
-					}
-					checker.addActionListener(new CheckerActionListener(prob));
-					
-					mainPanel.add(checker, BorderLayout.SOUTH);
-					
-					d.setContents(mainPanel);
-					if(!d.showToUser()) return;
-					
-					try{
-						int n = Integer.parseInt(cases.getText());
-						if(n < 1){
-							message = "Please fix input.";
-							continue;
-						}
-						n = Integer.parseInt(timeLimit.getText());
-						if(n < 1){
-							message = "Please fix input.";
-							continue;
-						}
-					}catch(Exception ex){
-						message = "Please fix input.";
-						continue;
-					}
-					
-					prob.showInput = input.isSelected();
-					prob.title = title.getText();
-					prob.folder = path.getText();
-					prob.timeLimit = Integer.parseInt(timeLimit.getText());
-					prob.precisionExponent = Integer.parseInt(precisionExponent.getText());
-					prob.checkOFEMode = (String)OFEMode.getSelectedItem();
-					prob.inputFormat = infileName.getText();
-					prob.outputFormat = outfileName.getText();
-					prob.setCases(Integer.parseInt(cases.getText()));
-					problems.add(prob);
-					
+				Problem newprob = new Problem();
+				ProblemDataWindow pdw = new ProblemDataWindow(newprob);
+				newprob = pdw.showDialog();
+				if(!newprob.title.equals("")){
+					problems.add(newprob);
 					updateProblemData(data, problems);
-					break;
+					tm.fireTableDataChanged();
+					refreshJudgeList(problems);
 				}
-				
-				tm.fireTableDataChanged();
-				refreshJudgeList(problems);
 			}
 		}
 		addProblem.addActionListener(new AddProblemListener(AutoJudge.problemHandler.getProblems(), problemData, tableModel));
 		configBotPanel.add(addProblem);
+		
+		JButton editProblem = new JButton("Edit Problem");
+		
+		class EditProblemListener implements ActionListener{
+			Vector<Vector<Object>> data;
+			ArrayList<Problem> problems;
+			ProblemDataTableModel tm;
+			JTable table;
+			
+			public EditProblemListener(ArrayList<Problem> problems, Vector<Vector<Object>> data, ProblemDataTableModel tm, JTable table){
+				this.data = data;
+				this.problems = problems;
+				this.tm = tm;
+				this.table = table;
+			}
+			
+			public void actionPerformed(ActionEvent e){
+				if(table.getSelectedRow() == -1) return;
+				int index = table.getSelectedRow();
+				Problem curr = problems.get(index);
+				
+				ProblemDataWindow pdw = new ProblemDataWindow(curr);
+				curr = pdw.showDialog();
+				problems.set(index, curr);
+
+				updateProblemData(data, problems);
+				tm.fireTableDataChanged();
+				refreshJudgeList(problems);
+			}
+		}
+		
+		editProblem.addActionListener(new EditProblemListener(AutoJudge.problemHandler.getProblems(), problemData, tableModel, problemTable));
+		configBotPanel.add(editProblem);
 		
 		JButton removeProblem = new JButton("Remove Problem");
 		
@@ -762,14 +601,12 @@ class GUI extends JFrame{
 			temp.add(problems.get(i).title);
 			temp.add(problems.get(i).inputFiles.size());
 			temp.add(problems.get(i).folder);
+			temp.add(problems.get(i).timeLimit);
 			temp.add(problems.get(i).inputFormat);
 			temp.add(problems.get(i).outputFormat);
-			temp.add(problems.get(i).timeLimit);
 			temp.add(problems.get(i).showInput);
-			temp.add(problems.get(i).checkerLanguage);
-			temp.add(problems.get(i).checkerFile);
-			temp.add(problems.get(i).precisionExponent);
-			temp.add(problems.get(i).checkOFEMode);
+			temp.add(problems.get(i).checkerFile != null);
+			temp.add(problems.get(i).usePrecisionChecker);
 			problemData.add(temp);
 		}
 	}
