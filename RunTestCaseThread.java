@@ -70,13 +70,13 @@ class RunTestCaseThread extends Thread{
 			bundle.runTimes.add(AutoJudge.runWindow.getRunTime());
 			
 			String team = HelperLib.inputStreamReaderToString(new FileReader(new File("AutoJudgeTemporaryOutputFile.out")));
-			System.out.println("Team: " + team);
+			//System.out.println("Team: " + team);
 			
 			String error = HelperLib.inputStreamReaderToString(new FileReader(new File("AutoJudgeTemporaryErrorFile.err")));
-			System.out.println("Error: " + error);
+			//System.out.println("Error: " + error);
 			
 			String judge = HelperLib.inputStreamReaderToString(new FileReader(new File(bundle.problem.outputFiles.get(caseNum))));
-			System.out.println("Judge: " + judge);
+			//System.out.println("Judge: " + judge);
 			
 			bundle.errors.add(error);
 			if(error.length() != 0){
@@ -135,10 +135,10 @@ class RunTestCaseThread extends Thread{
 				}
 			}else{
 				if(!verdictPassed){
-					if(AutoJudge.judge.checkWrongAnswer(team, judge,bundle.problem.precisionExponent)){
+					if(AutoJudge.judge.checkWrongAnswer(team, judge,bundle.problem)){
 						if(bundle.wrongAnswer == Integer.MAX_VALUE) bundle.wrongAnswer = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Wrong Answer");
-					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem.precisionExponent,bundle.problem.checkOFEMode)){
+					}else if(AutoJudge.judge.checkOutputFormatError(team, judge,bundle.problem)){
 						if(bundle.outputFormatError == Integer.MAX_VALUE) bundle.outputFormatError = caseNum;
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Output Format Error");
 					}else{

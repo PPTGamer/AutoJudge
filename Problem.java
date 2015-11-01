@@ -11,7 +11,7 @@ class Problem{
 	ArrayList<String> inputFiles, outputFiles;
 	String title, folder, inputFormat, outputFormat, checkerLanguage, checkerFile;
 	int timeLimit, precisionExponent;
-	boolean showInput;
+	boolean showInput, usePrecisionChecker;
 	String checkOFEMode;
 	
 	public Problem(){

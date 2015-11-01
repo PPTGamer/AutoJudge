@@ -92,6 +92,7 @@ class RunWindow extends JFrame{
 		table.getColumnModel().getColumn(1).setCellRenderer(new DecimalFormatRenderer());
 		table.getColumnModel().getColumn(1).setMaxWidth(70);
 		table.getColumnModel().getColumn(1).setMaxWidth(70);
+		table.getColumnModel().getColumn(2).setCellRenderer(new VerdictRenderer());
 		label.setText("Now judging: " + p.title);
 		terminate.setEnabled(true);
 		
@@ -179,6 +180,7 @@ class RunWindow extends JFrame{
 		}
 	}
 	
+	
 	class RunTimer extends Thread{
 		RunWindow parent;
 		Process process;
@@ -226,6 +228,30 @@ class RunWindow extends JFrame{
 			
 			value = formatter.format((Number)value);
 			return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column );
+		}
+	}
+	class VerdictRenderer extends DefaultTableCellRenderer {
+		public Component getTableCellRendererComponent(
+			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			renderer.setFont(renderer.getFont().deriveFont(Font.BOLD));
+			switch (value.toString()){
+				case "Accepted":
+					renderer.setForeground(new Color(0,170,50));
+					break;
+				case "Wrong Answer":
+					renderer.setForeground(new Color(255,0,0));
+					break;
+				case "Time Limit Exceeded":
+					renderer.setForeground(new Color(0,0,255));
+					break;
+				case "Runtime Error":
+					renderer.setForeground(new Color(0,170,183));
+					break;
+				default:
+					renderer.setForeground(new Color(0,0,0));
+			}
+			return renderer;
 		}
 	}
 }

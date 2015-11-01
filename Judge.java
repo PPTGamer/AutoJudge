@@ -101,13 +101,23 @@ class Judge{
 		AutoJudge.gui.enableJudge();
 	}
 	
-	public boolean checkWrongAnswer(String a, String b,int p){
-		return RunChecker.judge(a,b,p,"Tolerate all whitespace");
+	public boolean checkWrongAnswer(String a, String b,Problem p){
+		if(p.usePrecisionChecker){
+			return RunChecker.judge(a,b,p.precisionExponent,"Tolerate all whitespace");
+		}else{
+			String atmp = a.replaceAll("\\s+", "");
+			String btmp = b.replaceAll("\\s+", "");
+			return !atmp.equalsIgnoreCase(btmp);
+		}
 	}
-	
-	public boolean checkOutputFormatError(String a, String b,int p, String ofeMode){
+
+	public boolean checkOutputFormatError(String a, String b,Problem p){
 		//OFE if output differs only by tolerating the specified chars in ofeMode
-		return RunChecker.judge(a,b,p,"Strict") && !RunChecker.judge(a,b,p, ofeMode);
+		if(p.usePrecisionChecker){
+			return RunChecker.judge(a,b,p.precisionExponent,"Strict") && !RunChecker.judge(a,b,p.precisionExponent, p.checkOFEMode);
+		}else{
+			return !a.equals(b);
+		}
 	}
 	
 	public void giveNoCasesVerdict(String type, String message){
