@@ -145,7 +145,6 @@ class GUI extends JFrame{
 				columnNames.add("Time Limit");
 				columnNames.add("Input File Format");
 				columnNames.add("Output File Format");
-				columnNames.add("Show Input");
 				columnNames.add("Custom Judge?");
 				columnNames.add("Precision Checker?");
 				this.problems = problems;
@@ -179,9 +178,8 @@ class GUI extends JFrame{
 					case 2:	//Cases 
 					case 6:	//Time Limit
 						return Integer.class;
-					case 7:	//Show Input
-					case 8:	//Use Custom Judge?
-					case 9:	//Use Precision Checker?
+					case 7:	//Use Custom Judge?
+					case 8:	//Use Precision Checker?
 						return Boolean.class;
 				}
 				return String.class;
@@ -604,7 +602,6 @@ class GUI extends JFrame{
 			temp.add(problems.get(i).timeLimit);
 			temp.add(problems.get(i).inputFormat);
 			temp.add(problems.get(i).outputFormat);
-			temp.add(problems.get(i).showInput);
 			temp.add(problems.get(i).checkerFile != null);
 			temp.add(problems.get(i).usePrecisionChecker);
 			problemData.add(temp);

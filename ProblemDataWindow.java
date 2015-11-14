@@ -20,7 +20,6 @@ class ProblemDataWindow extends JDialog{
 	JTextField timeLimit = new JTextField();
 	JTextField precisionExponent = new JTextField("0");
 	JComboBox OFEMode = new JComboBox(new String[]{"Tolerate all whitespace","Tolerate all newlines","Tolerate all blank lines"});
-	JCheckBox input = new JCheckBox();
 	JCheckBox usesPrecisionChecker = new JCheckBox();
 	JButton checker = new JButton("Add Checker Program?");
 	JButton exit = new JButton("Exit without Saving");
@@ -46,7 +45,6 @@ class ProblemDataWindow extends JDialog{
 			usesPrecisionChecker.setSelected(problem.usePrecisionChecker);
 			precisionExponent.setText(Integer.toString(problem.precisionExponent));
 			OFEMode.setSelectedItem(problem.checkOFEMode);
-			input.setSelected(problem.showInput);
 		}
 		
 		JPanel mainPanel = new JPanel();
@@ -59,7 +57,7 @@ class ProblemDataWindow extends JDialog{
 		
 		//Center subpanel:
 		JPanel subpanel = new JPanel();
-		subpanel.setLayout(new GridLayout(11, 2));
+		subpanel.setLayout(new GridLayout(10, 2));
 
 		JLabel l_title = new JLabel("Title: ");
 		subpanel.add(l_title);
@@ -102,10 +100,6 @@ class ProblemDataWindow extends JDialog{
 		JLabel l_OFEMode = new JLabel("Output Format Error Checking Mode: "); 
 		subpanel.add(l_OFEMode);
 		subpanel.add(OFEMode);
-
-		JLabel l_input = new JLabel("Show Input: "); 
-		subpanel.add(l_input);
-		subpanel.add(input);
 
 		checker.addActionListener(new CheckerActionListener(problem));
 		
@@ -259,7 +253,6 @@ class ProblemDataWindow extends JDialog{
 				return;
 			}
 			
-			problem.showInput = input.isSelected();
 			problem.title = title.getText();
 			problem.folder = path.getText();
 			problem.timeLimit = Integer.parseInt(timeLimit.getText());

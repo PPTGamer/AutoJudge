@@ -33,17 +33,16 @@ class ProblemHandler{
 				Problem problem = new Problem(s);
 				String[] params = sc.nextLine().split("\t");
 				int n = Integer.parseInt(params[0]);
-				problem.showInput = Boolean.parseBoolean(params[1]);
-				problem.folder = params[2];
-				problem.timeLimit = Integer.parseInt(params[3]);
-				problem.inputFormat = params[4];
-				problem.outputFormat = params[5];
-				problem.checkOFEMode = params[6];
-				problem.usePrecisionChecker = Boolean.parseBoolean(params[7]);
+				problem.folder = params[1];
+				problem.timeLimit = Integer.parseInt(params[2]);
+				problem.inputFormat = params[3];
+				problem.outputFormat = params[4];
+				problem.checkOFEMode = params[5];
+				problem.usePrecisionChecker = Boolean.parseBoolean(params[6]);
 				if(problem.usePrecisionChecker) 
-					problem.precisionExponent = Integer.parseInt(params[8]);
-				problem.checkerLanguage = params.length>9?params[9]:null;
-				problem.checkerFile = params.length>9?params[10]:null;
+					problem.precisionExponent = Integer.parseInt(params[7]);
+				problem.checkerLanguage = params.length>8?params[8]:null;
+				problem.checkerFile = params.length>8?params[9]:null;
 				
 				for(int i=0; i<n; i++){
 					String[] io = sc.nextLine().split("\t");
@@ -66,7 +65,6 @@ class ProblemHandler{
 			for(int i=0; i<problems.size(); i++){
 				sb.append(problems.get(i).title + '\n');
 				sb.append(""+problems.get(i).inputFiles.size() + '\t');
-				sb.append(""+problems.get(i).showInput + '\t');
 				sb.append(""+problems.get(i).folder + '\t');
 				sb.append(""+problems.get(i).timeLimit + '\t');
 				sb.append(""+problems.get(i).inputFormat + '\t');
