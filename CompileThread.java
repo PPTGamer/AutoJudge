@@ -17,21 +17,21 @@ class CompileThread extends Thread{
 	public void run(){
 		try{
 			Runtime rt = Runtime.getRuntime();
-			System.out.println("about to compile");
+			System.out.println("CompileThread: about to compile run source code");
 			Process proc;
 			InputStreamReader stdError;
 			String s;
 			if(bundle.compileCommand == null){
-				System.out.println("skipping compilation for " + bundle.language);
+				System.out.println("CompileThread: skipping compilation for " + bundle.language);
 			}else{
 				proc = rt.exec(bundle.compileCommand);
-				System.out.println("compiling");
+				System.out.println("CompileThread: compiling run source code");
 				proc.waitFor();
 
 				stdError = new InputStreamReader(proc.getErrorStream());
 
 				s = HelperLib.inputStreamReaderToString(stdError);
-				System.out.println("compiled");
+				System.out.println("CompileThread: compiled run source code");
 				
 				if(s.length() != 0){
 					if(!AutoJudge.judge.checkForCompileErrorOverride(s)){
@@ -42,18 +42,18 @@ class CompileThread extends Thread{
 			}
 			
 			if(bundle.problem.checkerFile != null){
-				System.out.println("about to compile checker program");
+				System.out.println("CompileThread: about to compile checker program");
 				if(bundle.checkerCompileCommand == null){
-					System.out.println("skipping compilation for " + bundle.problem.checkerLanguage);
+					System.out.println("CompileThread: skipping compilation for " + bundle.problem.checkerLanguage);
 				}else{
 					proc = rt.exec(bundle.checkerCompileCommand);
-					System.out.println("compiling");
+					System.out.println("CompileThread: compiling checker source code");
 					proc.waitFor();
 
 					stdError = new InputStreamReader(proc.getErrorStream());
 
 					s = HelperLib.inputStreamReaderToString(stdError);
-					System.out.println("compiled");
+					System.out.println("CompileThread: compiled checker source code");
 					
 					if(s.length() != 0){
 						if(!AutoJudge.judge.checkForCompileErrorOverride(s)){

@@ -132,7 +132,7 @@ class HelperLib{
 			FileReader fr = new FileReader(new File(file));
 			return inputStreamReaderToString(fr);
 		}catch(Exception e){
-			System.out.println("Failed to read file, returning empty string instead.");
+			System.out.println("Failed to read file, returning empty string instead. (" + file + ")");
 		}
 		return "";
 	}

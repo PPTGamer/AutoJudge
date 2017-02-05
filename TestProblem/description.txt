@@ -1,0 +1,32 @@
+Create a program which performs basic arithmetic.
+
+[Input and Output]
+Your program will take two positive integers as input (a and b, 0<=a,b<=1000), and output 5 lines, as follows:
+The first line is the sum of a and b.
+The second line is the value of b subtracted from a.
+The third line is the product of a and b.
+The fourth line is the quotient when a is divided by b. (not including the remainder)
+The fifth line is the remainder when a is divided by b.
+
+Sample Input 1:
+55 3
+
+Sample Output 1:
+58
+52
+165
+18
+1
+
+Sample Input 2:
+128 8
+
+Sample Output 2:
+136
+120
+1024
+16
+0
+
+Explanation for Sample Input and Output 1:
+55 divided by 3 is 18 remainder 1, so the last two numbers in the output are 18 and 1.

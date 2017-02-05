@@ -41,9 +41,13 @@ class ProblemHandler{
 				problem.usePrecisionChecker = Boolean.parseBoolean(params[6]);
 				if(problem.usePrecisionChecker) 
 					problem.precisionExponent = Integer.parseInt(params[7]);
-				problem.checkerLanguage = params.length>8?params[8]:null;
-				problem.checkerFile = params.length>8?params[9]:null;
-				
+				if(params.length>8){
+					problem.checkerLanguage = params[8];
+					problem.checkerFile = params[9];
+				}else{
+					problem.checkerLanguage = null;
+					problem.checkerFile = null;
+				}
 				for(int i=0; i<n; i++){
 					String[] io = sc.nextLine().split("\t");
 					problem.inputFiles.add(io[0]);
@@ -73,7 +77,7 @@ class ProblemHandler{
 				sb.append(""+problems.get(i).usePrecisionChecker + '\t');
 				sb.append(""+problems.get(i).precisionExponent + '\t');
 				if(problems.get(i).checkerFile != null){
-					sb.append(""+'\t' + problems.get(i).checkerLanguage);
+					sb.append(problems.get(i).checkerLanguage);
 					sb.append(""+'\t' + problems.get(i).checkerFile);
 				}
 				sb.append('\n');

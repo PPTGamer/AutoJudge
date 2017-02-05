@@ -21,10 +21,10 @@ class RunTestCaseThread extends Thread{
 			boolean verdictPassed = false;
 			String s = HelperLib.inputStreamReaderToString(new FileReader(new File(bundle.problem.inputFiles.get(caseNum))));
 			bundle.inputs.add(s);
-			System.out.println("writing input to file");
+			System.out.println("RunTestCaseThread: writing input to file");
 			HelperLib.stringToFile("AutoJudgeTemporaryInputFile.in", s);
 			
-			System.out.println("setting up test case: " + (caseNum+1));
+			System.out.println("RunTestCaseThread: setting up test case: " + (caseNum+1));
 			// HelperLib.stringToFile("AutoJudgeRun.bat", bundle.runCommand + " < AutoJudgeTemporaryInputFile.in > AutoJudgeTemporaryOutputFile.out");
 			// Runtime rt = Runtime.getRuntime();
 			Runtime.getRuntime().gc();
@@ -39,7 +39,7 @@ class RunTestCaseThread extends Thread{
 			pb.redirectInput(new File("AutoJudgeTemporaryInputFile.in"));
 			pb.redirectOutput(new File("AutoJudgeTemporaryOutputFile.out"));
 			
-			System.out.println("running test case: " + (caseNum+1));
+			System.out.println("RunTestCaseThread: running test case: " + (caseNum+1));
 			Process proc = pb.start();
 			// Process proc = rt.exec("AutoJudgeRun.bat");
 			
@@ -92,13 +92,13 @@ class RunTestCaseThread extends Thread{
 			
 			bundle.teamOutputs.add(team);
 			bundle.judgeOutputs.add(judge);
-			System.out.println("Checking test case " + (caseNum+1));
+			System.out.println("RunTestCaseThread: checking test case " + (caseNum+1));
 			
 			if(bundle.problem.checkerFile != null){
 				if(!verdictPassed){
 					Runtime.getRuntime().gc();
 					Runtime.getRuntime().runFinalization();
-					
+					System.out.println("RunTestCaseThread: runCommand="+bundle.checkerRunCommand);
 					runCommand = bundle.checkerRunCommand.split(" ");
 					ArrayList<String> runlist2 = new ArrayList<String>();
 					for(int i=0; i<runCommand.length; i++) runlist2.add(runCommand[i]);
@@ -118,15 +118,21 @@ class RunTestCaseThread extends Thread{
 						AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Checker Runtime Error");
 						bundle.checkerNotes.add(checkerError);
 					}else{
-						String code = checkerOutput.substring(0, checkerOutput.indexOf("\n")).trim();
-						String notes = checkerOutput.substring(checkerOutput.indexOf("\n")+1);
+						String code, notes;
+						if(checkerOutput.indexOf("\n")==-1){
+							code = "O";
+							notes = "";
+						}else{
+							code = checkerOutput.substring(0, checkerOutput.indexOf("\n")).trim();
+							notes = checkerOutput.substring(checkerOutput.indexOf("\n")+1);
+						}
 						switch(code){
 							case "AC": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Accepted"); break;
 							case "WA": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Wrong Answer"); break;
 							case "OFE": AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Output Format Error"); break;
 							default: AutoJudge.runWindow.addCaseVerdict(caseNum+1, AutoJudge.runWindow.getRunTime(), "Other"); break;
 						}
-						bundle.checkerNotes.add(notes);
+						bundle.checkerNotes.add("verdict:"+code+"\n"+notes);
 					}
 					(new File("AutoJudgeTemporaryCheckerOutputFile.out")).delete();
 					(new File("AutoJudgeTemporaryCheckerErrorFile.err")).delete();
