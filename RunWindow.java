@@ -28,11 +28,11 @@ class RunWindow extends JFrame{
 	private RunTimer runTimer;
 	private Problem problem;
 	private boolean terminated;
-
+	private PieChart verdictChart; 
 	public RunWindow(){
 		setVisible(false);
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		
 		setLayout(new BorderLayout());
 		
@@ -77,6 +77,9 @@ class RunWindow extends JFrame{
 		add(buttons, BorderLayout.SOUTH);
 		terminated = true;
 		
+		verdictChart = new PieChart(1); 
+		verdictChart.setPreferredSize(new Dimension(200, 200));
+		add(verdictChart, BorderLayout.WEST);
 		pack();
 	}
 	
@@ -98,6 +101,8 @@ class RunWindow extends JFrame{
 		
 		problem = p;
 		terminated = false;
+		System.out.println(p.inputFiles.size());
+		verdictChart.reset(p.inputFiles.size());
 		
 		setResizable(false);
 		revalidate();
@@ -144,7 +149,9 @@ class RunWindow extends JFrame{
 		tmp.add(Math.min(time, problem.timeLimit));
 		tmp.add(verdict);
 		caseData.add(tmp);
+		verdictChart.addEntry(verdict);
 		runTableModel.fireTableDataChanged();
+		repaint();
 	}
 	
 	class RunDataTableModel extends AbstractTableModel{

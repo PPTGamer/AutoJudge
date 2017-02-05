@@ -590,12 +590,12 @@ class GUI extends JFrame{
 			problemBox.addItem(problems.get(i).title);
 		}
 	}
-	
+
 	public static void updateProblemData(Vector<Vector<Object>> problemData, ArrayList<Problem> problems){
 		problemData.clear();
 		for(int i=0; i<problems.size(); i++){
 			Vector<Object> temp = new Vector<Object>();
-			temp.add((char)('A' + i) + "");
+			temp.add(HelperLib.problemNumbertoLetters(i));
 			temp.add(problems.get(i).title);
 			temp.add(problems.get(i).inputFiles.size());
 			temp.add(problems.get(i).folder);

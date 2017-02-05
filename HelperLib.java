@@ -152,4 +152,12 @@ class HelperLib{
 			System.out.println("Failed to save file.");
 		}
 	}
+	
+	public static String problemNumbertoLetters(int i) {
+        int i1 = i/26, i2 = i%26;
+        String s = "";
+        if (i>=26) s += (char)(i1+'A'-1);
+        s += (char)(i2+'A');
+        return s;
+    }
 }
