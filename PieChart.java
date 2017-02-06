@@ -25,6 +25,7 @@ class PieChart extends JComponent {
 	public PieChart(int n) {
 		slices=new HashMap<String,Slice>();
 		slices.put("No Verdict", new Slice(n,new Color(0,0,0)));
+		setPreferredSize(new Dimension(100, 150));
 		repaint();
 	}
 	public void reset(int n){
@@ -33,31 +34,12 @@ class PieChart extends JComponent {
 		repaint();
 	}
 	public void addEntry(String key){
-		System.out.println("draw:" + key);
 		slices.put("No Verdict",new Slice(slices.get("No Verdict").value - 1, new Color(0,0,0)));
 		int currval = 0;
 		if(slices.containsKey(key)){
 			currval = slices.get(key).value;
 		}
-		
-		switch(key){
-			case "Accepted":
-				slices.put("Accepted",new Slice(currval+1,new Color(0,170,50)));
-				break;
-			case "Wrong Answer":
-				slices.put("Wrong Answer",new Slice(currval+1,new Color(255,0,0)));
-				break;
-			case "Time Limit Exceeded":
-				slices.put("Time Limit Exceeded",new Slice(currval+1,new Color(0,0,255)));
-				break;
-			case "Runtime Error":
-				slices.put("Runtime Error",new Slice(currval+1,new Color(0,170,183)));
-				break;
-			default:
-				slices.put(key,new Slice(currval+1,new Color(100,100,100)));
-				break;
-		}	
-		//System.out.println(key + " " +  slices.get(key).value + " " + slices.get(key).color);
+		slices.put(key,new Slice(currval+1,HelperLib.getVerdictColor(key)));	
 		repaint();
 	}
 	public void paint(Graphics g) {
@@ -81,7 +63,6 @@ class PieChart extends JComponent {
 			if(slices.get(verdicts[i])!=null){
 				int valuei = slices.get(verdicts[i]).value;
 				Color colori = slices.get(verdicts[i]).color;
-				System.out.println(verdicts[i]+ " " +valuei + " "+colori);
 				double startAngle = curValue * 360.0D / total;
 				double arcAngle = valuei * 360.0D / total;
 				Arc2D.Double arc = new Arc2D.Double(area, startAngle, arcAngle, Arc2D.PIE);

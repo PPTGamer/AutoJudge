@@ -570,6 +570,13 @@ class GUI extends JFrame{
 		
 		tabPane.add("Config", p_config);
 		
+		try {
+			setIconImage(ImageIO.read(new File("icon.png")));
+		}
+		catch (IOException exc) {
+			System.out.println("Failed to load icon.");
+			exc.printStackTrace();
+		}
 		add(tabPane);
 		setSize(800, 600);
 		setLocationRelativeTo(null);

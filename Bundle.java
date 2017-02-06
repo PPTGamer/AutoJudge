@@ -30,15 +30,15 @@ class Bundle{
 		compileCommand = HelperLib.getCompileString(language, code, "submissions");
 		runCommand = HelperLib.getRunString(language, code, "submissions");
 		if(problem.checkerFile != null){
-			String checkerFilecode = "checkers\\"+problem.checkerFile;
+			String checkerFilecode = problem.folder+"\\"+problem.checkerFile;
 			switch(problem.checkerLanguage){
 				case "C++": checkerFilecode+=".cpp"; break;
 				case "Java": checkerFilecode+=".java"; break;
 				case "Python": checkerFilecode+=".py"; break;
 			}
-			checkerFilecode = HelperLib.fileToString("checkers\\"+problem.checkerFile);
-			checkerCompileCommand = HelperLib.getCompileString(problem.checkerLanguage, checkerFilecode, "checkers\\", problem.checkerFile);
-			checkerRunCommand = HelperLib.getRunString(problem.checkerLanguage, checkerFilecode, "checkers\\", problem.checkerFile);
+			checkerFilecode = HelperLib.fileToString(problem.folder+"\\"+problem.checkerFile);
+			checkerCompileCommand = HelperLib.getCompileString(problem.checkerLanguage, checkerFilecode, problem.folder+"\\", problem.checkerFile);
+			checkerRunCommand = HelperLib.getRunString(problem.checkerLanguage, checkerFilecode, problem.folder+"\\", problem.checkerFile);
 		}
 		runtimeError = Integer.MAX_VALUE;
 		timeLimitExceeded = Integer.MAX_VALUE;

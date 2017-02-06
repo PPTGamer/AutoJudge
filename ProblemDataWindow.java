@@ -150,7 +150,7 @@ class ProblemDataWindow extends JDialog{
 			this.p = p;
 		}
 		public void actionPerformed(ActionEvent e){
-			DialogBox d = new DialogBox(null, "Set Problem Checker", "<html>The problem checker MUST print out the correct judgement code (AC - accepted, WA - wrong answer, OFE - output format error, O - other)<br>on a line by itself at the beginning of its output. Any succeeding lines will be treated as notes and will be shown when comparing team<br>outputs. The checker will be run from the directory of the autojudge with the current test case number (1-n)as its only command line<br>argument and the team's output file-redirected into it (ie. \"&lt;checker&gt; &lt;casenum&gt; &lt; &lt;team's output&gt;\"). The checker program is saved as<br>\"&lt;File Name&gt;\" in the checkers folder in the same folder as autojudge (file name ignored for Java). Please make sure this file name is unique<br>among all problems.", "Ok");
+			DialogBox d = new DialogBox(null, "Set Problem Checker", "<html>The problem checker MUST print out the correct judgement code (AC - accepted, WA - wrong answer, OFE - output format error, O - other)<br>on a line by itself at the beginning of its output. Any succeeding lines will be treated as notes and will be shown when comparing team<br>outputs. The checker will be run from the directory of the autojudge with the current test case number (1-n)as its only command line<br>argument and the team's output file-redirected into it (ie. \"&lt;checker&gt; &lt;casenum&gt; &lt; &lt;team's output&gt;\"). The checker program is saved as<br>\"&lt;File Name&gt;\" in the problem folder. Please make sure this file name is unique<br>among all problems.", "Ok");
 			
 			JPanel mainPanel = new JPanel();
 			mainPanel.setLayout(new BorderLayout());
@@ -231,7 +231,7 @@ class ProblemDataWindow extends JDialog{
 			}else{
 				p.checkerLanguage = (String)languageBox.getSelectedItem();
 				p.checkerFile = fileBox.getText();
-				HelperLib.stringToFile(HelperLib.getSaveFileString(p.checkerLanguage, textArea.getText(), "checkers", p.checkerFile), textArea.getText());
+				HelperLib.stringToFile(HelperLib.getSaveFileString(p.checkerLanguage, textArea.getText(),p.folder, p.checkerFile), textArea.getText());
 			}
 		}
 	}

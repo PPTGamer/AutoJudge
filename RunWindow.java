@@ -78,7 +78,6 @@ class RunWindow extends JFrame{
 		terminated = true;
 		
 		verdictChart = new PieChart(1); 
-		verdictChart.setPreferredSize(new Dimension(200, 200));
 		add(verdictChart, BorderLayout.WEST);
 		pack();
 	}
@@ -242,22 +241,7 @@ class RunWindow extends JFrame{
 			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			renderer.setFont(renderer.getFont().deriveFont(Font.BOLD));
-			switch (value.toString()){
-				case "Accepted":
-					renderer.setForeground(new Color(0,170,50));
-					break;
-				case "Wrong Answer":
-					renderer.setForeground(new Color(255,0,0));
-					break;
-				case "Time Limit Exceeded":
-					renderer.setForeground(new Color(0,0,255));
-					break;
-				case "Runtime Error":
-					renderer.setForeground(new Color(0,170,183));
-					break;
-				default:
-					renderer.setForeground(new Color(0,0,0));
-			}
+			renderer.setForeground(HelperLib.getVerdictColor(value.toString()));
 			return renderer;
 		}
 	}

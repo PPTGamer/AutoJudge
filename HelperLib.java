@@ -160,4 +160,8 @@ class HelperLib{
         s += (char)(i2+'A');
         return s;
     }
+	
+	public static Color getVerdictColor(String verdict){
+		switch (verdict){
+		}
 }

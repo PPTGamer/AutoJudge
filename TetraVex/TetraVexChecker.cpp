@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include <windows.h>
 using namespace std;
 struct Piece{
 	char A[4];
@@ -25,6 +26,12 @@ struct Piece{
 		return A[(3+rotation)%4];
 	}
 };
+string ExePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileName( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    return string( buffer ).substr( 0, pos);
+}
 Piece P[10][10];
 char ans[30][30];
 string inputFilename(int k){
@@ -32,19 +39,35 @@ string inputFilename(int k){
 	ss<<k;
 	string r;
 	ss>>r;
-	return "judge"+r+".in";
+	return ExePath()+"\\judge"+r+".in";
 }
-int main(int argc, char *argv[]){
-	int tcn = atoi(argv[0]);
-	cout<<"AC"<<endl;
-	cout<<tcn<<endl;
-	//string n; cin>> n; cout<<n<<endl; 
-	return 0;
-	ifstream fin(inputFilename(tcn).c_str());
-	int N; fin>>N; 
+int N; 
+void print(){
 	for(int i = 0; i<3*N; i++){
 		for(int j = 0; j<3*N; j++){
-			cin>>ans[i][j];
+			cout<<ans[i][j];
+		}
+		cout<<endl;
+	}
+}
+
+int main(int argc, char *argv[]){
+	int tcn = atoi(argv[1]);
+	ifstream fin;
+	fin.open(inputFilename(tcn).c_str());
+	if(!fin.good()){
+		cout<<"O"<<endl;
+		cout<<"file bad:"<<fin.bad()<<endl;
+		cout<<"file eof:"<<fin.eof()<<endl;
+		cout<<"file fail:"<<fin.fail()<<endl;
+		cout<<"file good:"<<fin.good()<<endl;
+		return 0;
+	}
+	fin>>N;
+	for(int i = 0; i<3*N; i++){
+		string s; getline(cin,s);
+		for(int j = 0; j<3*N; j++){
+			ans[i][j] = s[j];
 		}
 	}
 	bool wa = false;
@@ -62,6 +85,7 @@ int main(int argc, char *argv[]){
 		cout<<"Output does not match grid format specified in problem."<<endl;
 		cout<<"Checker aborted."<<endl;
 		cout<<"N="<<N<<endl;
+		print();
 		return 0;
 	}
 	for(int i = 0; i<N; i++){
@@ -89,6 +113,7 @@ int main(int argc, char *argv[]){
 		cout<<"Pieces in output do not match pieces in input."<<endl;
 		cout<<"Checker aborted."<<endl;
 		cout<<"N="<<N<<endl;
+		print();
 		return 0;
 	}
 	for(int i = 0; i<N; i++){
@@ -101,10 +126,12 @@ int main(int argc, char *argv[]){
 		cout<<"WA"<<endl;
 		cout<<"Edges in output do not match."<<endl;
 		cout<<"N="<<N<<endl;
+		print();
 		return 0;
 	}
 	cout<<"AC"<<endl;
 	cout<<"All checks passed; accepted."<<endl;
 	cout<<"N="<<N<<endl;
+	print();
 	return 0;
 }
