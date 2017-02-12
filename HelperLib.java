@@ -163,5 +163,11 @@ class HelperLib{
 	
 	public static Color getVerdictColor(String verdict){
 		switch (verdict){
+			case "Accepted": 			return new Color(0,170,50);
+			case "Wrong Answer": 		return new Color(255,0,0);
+			case "Time Limit Exceeded": return new Color(0,0,255);
+			case "Runtime Error":		return new Color(0,170,183);
+			default:					return new Color(0,0,0);
 		}
+	}
 }
